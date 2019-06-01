@@ -9,7 +9,7 @@ public class Dice {
         int value = d.nextInt(eyes) + 1;
         return value;
     }
-    public int roll(int eyes, int times, int modifier) {
+    public int roll(int times, int eyes, int modifier) {
         int value = 0;
         for (int i = 0; i < times; i++) {
             value += roll(eyes);

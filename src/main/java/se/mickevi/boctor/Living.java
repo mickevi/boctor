@@ -12,15 +12,38 @@ public class Living {
 
     private Race race;
     public Living() {}
-    public Living(Race race) {
-        this.reRoll(race);
+    public Living(Race race, Profession profession)
+    {
+        this.profession = profession;
+        this.race = race;
+        this.reRoll();
+    }
+    public void setRace(Race r) {
+        this.race = r;
+        reRoll();
     }
 
-    public void reRoll(Race race) {
-        this.race = race;
+    public void setProfession(Profession p) {
+        this.profession = p;
+        reRoll();
+    }
+    public int hpRoll() {
+        return dice.roll(profession.getHp()) + getStat("Constitution").getBonus();
+    }
+
+    public int manaRoll() {
+        if ( profession.getMana().get(2) != 0) {
+            return 0;
+        }
+        return dice.roll(profession.getMana()) + getStat("Intelligence").getBonus();
+
+    }
+    public void reRoll() {
         this.race.getStats().forEach((k, v) ->
             stats.put(k, new Stat(k, dice.roll(v)))
         );
+        this.hp.setBaseValue(hpRoll());
+        this.mana.setBaseValue(dice.roll(profession.getMana()));
     }
 
     public String getRaceName() { return race.getName(); }
@@ -33,6 +56,9 @@ public class Living {
         return "Living{" +
                 "stats=" + stats +
                 ", race=" + race +
+                ", profession=" + profession +
+                ", hp=" + hp +
+                ", mana=" + mana +
                 '}';
     }
     public int getMana() {

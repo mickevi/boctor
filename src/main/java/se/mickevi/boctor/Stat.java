@@ -21,7 +21,25 @@ public class Stat {
     }
 
     public void setBaseValue(int baseValue) {
+
         this.baseValue = baseValue;
+        this.currentValue = baseValue;
+    }
+
+    public int bonus(int b) {
+        if ( b <= 3) { return 0; }
+        else if (b <= 8) { return 1; }
+        else if (b <=12) { return 2; }
+        else if (b <=16) { return 3;}
+        else if (b <=20) { return 4;}
+        return 5;
+    }
+    public int getBonus() {
+        return bonus(baseValue);
+    }
+
+    public int getCurrentBonus() {
+        return bonus(currentValue);
     }
 
     public int getCurrentValue() {

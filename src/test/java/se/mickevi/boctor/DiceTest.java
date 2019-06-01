@@ -15,6 +15,6 @@ public class DiceTest {
     @Test
     public void roll_multiple() {
         Dice d = new Dice();
-        assertThat(4, is(d.roll(1,3,1)));
+        assertThat(d.roll(3,1,1), is(4));
     }
 }

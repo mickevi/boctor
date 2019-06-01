@@ -34,8 +34,8 @@ public class RaceTest {
     }
     @Test
     public void stat_str() {
-        List<Integer> actual = Arrays.asList(3,6,0);
-        assertThat(actual, is(human.getStat("Strength")));
+        List<Integer> expected = Arrays.asList(3, 6, 0);
+        assertThat(human.getStat("Strength"), is(expected));
 
     }
     @Test
