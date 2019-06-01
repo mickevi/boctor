@@ -1,0 +1,30 @@
+{
+  "name": "Human",
+  "stats": {
+    "Strength": [
+      3,
+      6,
+      0
+    ],
+    "Constitution": [
+      3,
+      6,
+      0
+    ],
+    "Dexterity": [
+      3,
+      6,
+      0
+    ],
+    "Intelligence": [
+      3,
+      6,
+      0
+    ],
+    "Wisdom": [
+      3,
+      6,
+      0
+    ]
+  }
+}
