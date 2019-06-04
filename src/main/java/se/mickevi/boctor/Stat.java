@@ -66,4 +66,9 @@ public class Stat {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public void increse(int value) {
+        currentValue += value;
+        baseValue += value;
+    }
 }
