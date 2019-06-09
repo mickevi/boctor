@@ -3,6 +3,8 @@ package se.mickevi.boctor;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.greaterThan;
 
@@ -11,13 +13,16 @@ import static org.junit.Assert.*;
 public class LivingTest {
 
     private Race human;
-    private Profession profession;
+    private Profession warrior;
+    private Profession wizard;
     private Living living;
     @Before
     public void setUp() throws Exception {
         this.human = new Race( "src/test/resources/races/human.json");
-        this.profession = new Profession("src/test/resources/professions/warrior.json");
-        this.living = new Living(human, profession);
+        this.warrior = new Profession("src/test/resources/professions/warrior.json");
+        this.wizard = new Profession("src/test/resources/professions/wizard.json");
+
+        this.living = new Living(human, warrior);
     }
 
     @Test
@@ -28,10 +33,16 @@ public class LivingTest {
     }
 
     @Test
-    public void testMana() {
+    public void testManaWarrior() {
         assertThat(living.getMana(), is(0));
     }
-
+    @Test
+    public void testManaWizard() {
+        Living l = new Living(human, wizard);
+        assertThat(l.getMana(), is (14));
+        l.levelUp();
+        assertThat(l.getMana(), is(28));
+    }
     @Test
     public void testHp() {
         assertThat(living.getHp(), is(14));
@@ -58,5 +69,31 @@ public class LivingTest {
         assertThat(living.getLevel(), is(101));
         System.out.println("HP level 101=" + living.getHp());
 
+    }
+
+    public int newTotal(HashMap<String, Stat> stats) {
+        // int total = stats.values().stream().map(stat -> stat.getCurrentValue()).reduce(0, (a, b) -> a + b);
+        int total = stats.values().stream().mapToInt(x -> x.getCurrentValue()).sum();
+        return total;
+    }
+    @Test
+    public void testStatIncrease() {
+        Living l = new Living(human, warrior);
+        int totalL1 = newTotal(l.getStats());
+        int maxValue = l.getStats().values().stream().mapToInt((x -> x.getMaxValue())).sum();
+        System.out.println("Total:" + totalL1);
+        l.levelUp();
+        l.levelUp();
+        // Level 3,
+        int totalL3 = newTotal(l.getStats());
+        assertThat(totalL1, is (totalL3));
+        l.levelUp();
+        int totalL4 = newTotal(l.getStats());
+        assertThat(totalL4, is(totalL1 + 1));
+        for (int i = 0; i < 150; i++) {
+            l.levelUp();
+        }
+        int totalMax = newTotal(l.getStats());
+        assertThat(totalMax, is(maxValue));
     }
 }

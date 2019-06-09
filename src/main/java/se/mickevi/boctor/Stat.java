@@ -1,13 +1,25 @@
 package se.mickevi.boctor;
 
+import java.util.List;
+
 public class Stat {
     int baseValue;
     int currentValue;
+    int maxValue=0;
+    public static final Dice dice = new Dice();
+
     String name;
 
     public Stat(String name, int baseValue) {
         this.baseValue = baseValue;
         this.currentValue = baseValue;
+        this.name = name;
+    }
+
+    public Stat(String name, List<Integer> dices) {
+        this.maxValue = dices.get(0) * dices.get(1) + dices.get(2);
+        this.currentValue = dice.roll(dices);
+        this.baseValue = this.currentValue;
         this.name = name;
     }
     public Stat(String name) {
@@ -19,7 +31,7 @@ public class Stat {
     public int getBaseValue() {
         return baseValue;
     }
-
+    public int getMaxValue() { return maxValue; }
     public void setBaseValue(int baseValue) {
 
         this.baseValue = baseValue;
@@ -64,10 +76,11 @@ public class Stat {
                 "baseValue=" + baseValue +
                 ", currentValue=" + currentValue +
                 ", name='" + name + '\'' +
+                ", maxValue=" + maxValue +
                 '}';
     }
 
-    public void increse(int value) {
+    public void increase(int value) {
         currentValue += value;
         baseValue += value;
     }

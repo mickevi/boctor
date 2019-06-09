@@ -1,6 +1,8 @@
 package se.mickevi.boctor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Living {
     private HashMap<String, Stat> stats = new HashMap();
@@ -31,18 +33,38 @@ public class Living {
         // 1024 * (level**2) xp per level
         // level = Math.sqrt(xp/1024) + 1
         this.xp += amount;
-        Integer l = (int) Math.round(Math.sqrt(xp/1024)) +1 ;
+        Integer l = (int) Math.sqrt(xp/1024f) +1 ;
         int levels = l - this.level;
         if ( levels != 0) {
-            this.setLevel(l);
             for (int i = 0; i<levels; i++) {
                 this.levelUp();
             }
         }
     }
     public void levelUp() {
-        this.hp.increse(hpRoll());
-        this.mana.increse(manaRoll());
+        this.hp.increase(hpRoll());
+        this.mana.increase(manaRoll());
+        this.level ++;
+        // Every 4 levels gives a random stat increase
+        if ((this.level % 4) == 0) {
+            increaseRandomStat();
+        }
+    }
+
+    private void increaseRandomStat() {
+        List<String> names = new ArrayList<>(stats.keySet());
+        while ( ! names.isEmpty()) {
+            int rnd = dice.roll(1, names.size(), -1);
+            String stat = names.get(rnd);
+            if (stats.get(stat).maxValue > stats.get(stat).currentValue) {
+                stats.get(stat).increase(1);
+                break;
+            } else {
+                names.remove(rnd);
+            }
+        }
+
+
     }
 
     public void setProfession(Profession p) {
@@ -55,7 +77,7 @@ public class Living {
     }
 
     public int manaRoll() {
-        if ( profession.getMana().get(2) != 0) {
+        if ( profession.getMana().get(0) == 0) {
             return 0;
         }
         return dice.roll(profession.getMana()) + getStat("Intelligence").getBonus();
@@ -63,16 +85,18 @@ public class Living {
 
     public void reRoll() {
         this.race.getStats().forEach((k, v) ->
-            stats.put(k, new Stat(k, dice.roll(v)))
+            stats.put(k, new Stat(k, v))
         );
         this.hp.setBaseValue(hpRoll());
-        this.mana.setBaseValue(dice.roll(profession.getMana()));
+        this.mana.setBaseValue(manaRoll());
     }
 
     public String getRaceName() { return race.getName(); }
     public Stat getStat(String name) {
         return stats.get(name);
     }
+    // Should only be used in tests.
+    HashMap<String, Stat> getStats() { return stats; }
 
     @Override
     public String toString() {
