@@ -11,7 +11,7 @@ public class DiceTest {
     @Test
     public void roll() {
         Dice d = new Dice();
-        assertEquals(d.roll(1), 1);
+        assertThat(d.roll(1), is(1));
     }
 
     @Test

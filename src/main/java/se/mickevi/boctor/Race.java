@@ -11,7 +11,7 @@ import java.util.List;
 public class Race {
 
     String name;
-    HashMap<String, List<Integer>> stats = new HashMap<String, List<Integer>>();
+    HashMap<String, List<Integer>> stats = new HashMap<>();
 
     public Race(String fileName) {
         ObjectMapper mapper = new ObjectMapper();
@@ -39,11 +39,10 @@ public class Race {
     }
 
     public List<Integer> getStat(String name) {
-        System.out.println("Stats: " + this.stats.get(name));
         return this.stats.get(name);
     }
 
-    public HashMap<String, List<Integer>> getStats() {
+    HashMap<String, List<Integer>> getStats() {
         return stats;
     }
 
@@ -52,7 +51,7 @@ public class Race {
     }
 
     public void addStat(String name, Integer d, Integer n, Integer m) {
-        List<Integer> l = new ArrayList<Integer>();
+        List<Integer> l = new ArrayList<>();
         l.add(d);
         l.add(n);
         l.add(m);

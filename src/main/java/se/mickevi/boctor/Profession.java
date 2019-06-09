@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Profession {
     String name;
-    List<Integer> hp = new ArrayList<Integer>();
-    List<Integer> mana = new ArrayList<Integer>();
+    List<Integer> hp = new ArrayList<>();
+    List<Integer> mana = new ArrayList<>();
 
     public Profession(String fileName) {
         ObjectMapper mapper = new ObjectMapper();

@@ -7,8 +7,7 @@ public class Dice {
     Random d = new Random();
 
     public int roll(int eyes) {
-        int value = d.nextInt(eyes) + 1;
-        return value;
+        return  d.nextInt(eyes) + 1;
     }
 
     public int roll(int times, int eyes, int modifier) {
