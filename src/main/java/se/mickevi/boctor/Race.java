@@ -46,7 +46,7 @@ public class Race {
         return stats;
     }
 
-    public void setStats(HashMap<String, List<Integer>> s) {
+    void setStats(HashMap<String, List<Integer>> s) {
         stats = s;
     }
 
