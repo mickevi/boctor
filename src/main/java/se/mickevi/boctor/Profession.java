@@ -24,7 +24,9 @@ public class Profession {
             e.printStackTrace();
         }
     }
-    public Profession() {}
+
+    public Profession() {
+    }
 
     public String getName() {
         return name;

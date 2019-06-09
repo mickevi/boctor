@@ -5,10 +5,12 @@ import java.util.Random;
 
 public class Dice {
     Random d = new Random();
+
     public int roll(int eyes) {
         int value = d.nextInt(eyes) + 1;
         return value;
     }
+
     public int roll(int times, int eyes, int modifier) {
         int value = 0;
         for (int i = 0; i < times; i++) {

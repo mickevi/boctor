@@ -2,12 +2,13 @@ package se.mickevi.boctor;
 
 import org.junit.Before;
 import org.junit.Test;
-import static org.hamcrest.CoreMatchers.*;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class StatTest {
     Stat s = new Stat("test");
+
     @Before
     public void setUp() throws Exception {
     }

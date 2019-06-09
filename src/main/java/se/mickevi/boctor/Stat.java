@@ -3,11 +3,10 @@ package se.mickevi.boctor;
 import java.util.List;
 
 public class Stat {
+    public static final Dice dice = new Dice();
     int baseValue;
     int currentValue;
-    int maxValue=0;
-    public static final Dice dice = new Dice();
-
+    int maxValue = 0;
     String name;
 
     public Stat(String name, int baseValue) {
@@ -22,6 +21,7 @@ public class Stat {
         this.baseValue = this.currentValue;
         this.name = name;
     }
+
     public Stat(String name) {
         this.name = name;
         this.baseValue = 0;
@@ -31,21 +31,32 @@ public class Stat {
     public int getBaseValue() {
         return baseValue;
     }
-    public int getMaxValue() { return maxValue; }
+
     public void setBaseValue(int baseValue) {
 
         this.baseValue = baseValue;
         this.currentValue = baseValue;
     }
 
+    public int getMaxValue() {
+        return maxValue;
+    }
+
     public int bonus(int b) {
-        if ( b <= 3) { return 0; }
-        else if (b <= 8) { return 1; }
-        else if (b <=12) { return 2; }
-        else if (b <=16) { return 3;}
-        else if (b <=20) { return 4;}
+        if (b <= 3) {
+            return 0;
+        } else if (b <= 8) {
+            return 1;
+        } else if (b <= 12) {
+            return 2;
+        } else if (b <= 16) {
+            return 3;
+        } else if (b <= 20) {
+            return 4;
+        }
         return 5;
     }
+
     public int getBonus() {
         return bonus(baseValue);
     }

@@ -5,10 +5,9 @@ import org.junit.Test;
 
 import java.util.HashMap;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class LivingTest {
 
@@ -16,9 +15,10 @@ public class LivingTest {
     private Profession warrior;
     private Profession wizard;
     private Living living;
+
     @Before
     public void setUp() throws Exception {
-        this.human = new Race( "src/test/resources/races/human.json");
+        this.human = new Race("src/test/resources/races/human.json");
         this.warrior = new Profession("src/test/resources/professions/warrior.json");
         this.wizard = new Profession("src/test/resources/professions/wizard.json");
 
@@ -36,13 +36,15 @@ public class LivingTest {
     public void testManaWarrior() {
         assertThat(living.getMana(), is(0));
     }
+
     @Test
     public void testManaWizard() {
         Living l = new Living(human, wizard);
-        assertThat(l.getMana(), is (14));
+        assertThat(l.getMana(), is(14));
         l.levelUp();
         assertThat(l.getMana(), is(28));
     }
+
     @Test
     public void testHp() {
         assertThat(living.getHp(), is(14));
@@ -76,6 +78,7 @@ public class LivingTest {
         int total = stats.values().stream().mapToInt(x -> x.getCurrentValue()).sum();
         return total;
     }
+
     @Test
     public void testStatIncrease() {
         Living l = new Living(human, warrior);
@@ -86,7 +89,7 @@ public class LivingTest {
         l.levelUp();
         // Level 3,
         int totalL3 = newTotal(l.getStats());
-        assertThat(totalL1, is (totalL3));
+        assertThat(totalL1, is(totalL3));
         l.levelUp();
         int totalL4 = newTotal(l.getStats());
         assertThat(totalL4, is(totalL1 + 1));

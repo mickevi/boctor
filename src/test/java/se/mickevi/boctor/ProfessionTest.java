@@ -11,6 +11,7 @@ import static org.junit.Assert.assertThat;
 
 public class ProfessionTest {
     Profession warrior;
+
     @Before
     public void setup() {
         this.warrior = new Profession("src/test/resources/professions/warrior.json");
@@ -18,7 +19,7 @@ public class ProfessionTest {
 
     @Test
     public void getName() {
-        assertThat(warrior.getName(),  is("Warrior"));
+        assertThat(warrior.getName(), is("Warrior"));
     }
 
     @Test

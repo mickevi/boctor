@@ -26,26 +26,31 @@ public class Race {
             e.printStackTrace();
         }
     }
-    public Race() {}
+
+    public Race() {
+    }
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String n) {
+        this.name = n;
     }
 
     public List<Integer> getStat(String name) {
         System.out.println("Stats: " + this.stats.get(name));
         return this.stats.get(name);
     }
-    public void setStats(HashMap<String, List<Integer>> s ){
-        stats = s;
-    }
 
     public HashMap<String, List<Integer>> getStats() {
         return stats;
     }
-    public void setName(String n) {
-        this.name = n;
+
+    public void setStats(HashMap<String, List<Integer>> s) {
+        stats = s;
     }
+
     public void addStat(String name, Integer d, Integer n, Integer m) {
         List<Integer> l = new ArrayList<Integer>();
         l.add(d);
@@ -54,6 +59,7 @@ public class Race {
 
         this.stats.put(name, l);
     }
+
     @Override
     public String toString() {
         return this.name + " " + this.stats.toString();
