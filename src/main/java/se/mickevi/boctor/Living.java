@@ -7,8 +7,12 @@ import java.util.List;
 public class Living {
     public static final Dice dice = new Dice();
     private HashMap<String, Stat> stats = new HashMap();
+    private Inventory inventory = new Inventory();
+
+
     private Stat hp = new Stat("hp");
     private Stat mana = new Stat("mana");
+
 
     private Profession profession;
     private Race race;
@@ -65,12 +69,12 @@ public class Living {
     }
 
     private void increaseRandomStat() {
-        List<String> names = new ArrayList<>(stats.keySet());
+        List<String> names = new ArrayList<>(getStats().keySet());
         while (!names.isEmpty()) {
             int rnd = dice.roll(1, names.size(), -1);
             String stat = names.get(rnd);
-            if (stats.get(stat).maxValue > stats.get(stat).currentValue) {
-                stats.get(stat).increase(1);
+            if (getStats().get(stat).maxValue > getStats().get(stat).currentValue) {
+                getStats().get(stat).increase(1);
                 break;
             } else {
                 names.remove(rnd);
@@ -98,7 +102,7 @@ public class Living {
 
     public void reRoll() {
         this.race.getStats().forEach((k, v) ->
-                stats.put(k, new Stat(k, v))
+                getStats().put(k, new Stat(k, v))
         );
         this.hp.setBaseValue(hpRoll());
         this.mana.setBaseValue(manaRoll());
@@ -109,7 +113,7 @@ public class Living {
     }
 
     public Stat getStat(String name) {
-        return stats.get(name);
+        return getStats().get(name);
     }
 
     // Should only be used in tests.
@@ -122,11 +126,11 @@ public class Living {
         return "Living{" +
                 "level=" + level +
                 ", xp=" + xp +
-                "stats=" + stats +
+                "stats=" + getStats() +
                 ", race=" + race +
                 ", profession=" + profession +
                 ", hp=" + hp +
-                ", mana=" + mana +
+                ", mana =" + mana +
                 '}';
     }
 
