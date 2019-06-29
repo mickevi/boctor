@@ -8,6 +8,22 @@ import java.util.Random;
 public class Dice {
     Random d = new Random();
     Integer dices;
+    Integer eyes;
+    Integer bonus;
+
+    public Dice(Integer dices, Integer eyes, Integer bonus) {
+        this.dices = dices;
+        this.eyes = eyes;
+        this.bonus = bonus;
+    }
+
+    public  Dice(ArrayList<Integer> d) {
+        this.dices = d.get(0);
+        this.eyes = d.get(1);
+        this.bonus = d.get(2);
+    }
+
+    public Dice() {}
 
     public Integer getDices() {
         return dices;
@@ -32,20 +48,6 @@ public class Dice {
     public void setBonus(Integer bonus) {
         this.bonus = bonus;
     }
-
-    Integer eyes;
-    Integer bonus;
-    public Dice(Integer dices, Integer eyes, Integer bonus) {
-        this.dices = dices;
-        this.eyes = eyes;
-        this.bonus = bonus;
-    }
-    public  Dice(ArrayList<Integer> d) {
-        this.dices = d.get(0);
-        this.eyes = d.get(1);
-        this.bonus = d.get(2);
-    }
-    public Dice() {}
 
     public int roll(int eyes) {
         return  d.nextInt(eyes) + 1;

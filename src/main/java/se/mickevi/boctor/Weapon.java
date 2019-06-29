@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Weapon extends Item {
 
@@ -12,45 +13,16 @@ public class Weapon extends Item {
     ArrayList<ItemSlots> slots = new ArrayList<>();
     ArrayList<DamageTypes> damageTypes = new ArrayList<>();
 
-    public ArrayList<Dice> getDamage() {
-        return damage;
-    }
-
-    public  void setDamage(ArrayList<ArrayList<Integer>> damage) {
-        // Create Dices from the arrays
-        damage.forEach(x ->this.addDamage(x));
-    }
-    private void addDamage(ArrayList<Integer> d) {
-        this.damage.add(new Dice(d));
-    }
-
-    public ArrayList<ItemSlots> getSlots() {
-        return slots;
-    }
-
-    public void setSlots(ArrayList<ItemSlots> slots) {
-        this.slots = slots;
-    }
-
-    public ArrayList<DamageTypes> getDamageTypes() {
-        return damageTypes;
-    }
-
-    public void setDamageTypes(ArrayList<DamageTypes> damageTypes) {
-        this.damageTypes = damageTypes;
-    }
-
     public Weapon() {
     }
 
-    public Weapon(String name, ArrayList<ItemSlots> slots, ArrayList<DamageTypes> damageTypes,
-                  ArrayList<Dice> damage) {
+    public Weapon(String name, List<ItemSlots> slots, List<DamageTypes> damageTypes,
+                  List<Dice> damage) {
         super(name, ItemType.WEAPON);
-        this.slots = slots;
-        this.damageTypes = damageTypes;
-        this.damage = damage;
+        this.slots = (ArrayList<ItemSlots>) slots;
+        this.damageTypes = (ArrayList<DamageTypes>) damageTypes;
+        this.damage = (ArrayList<Dice>) damage;
     }
-
     public Weapon(String filename) {
         super("tmp", ItemType.WEAPON);
         ObjectMapper mapper = new ObjectMapper();
@@ -64,6 +36,35 @@ public class Weapon extends Item {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Dice> getDamage() {
+        return damage;
+    }
+
+    public  void setDamage(List<List<Integer>> damage) {
+        // Create Dices from the arrays
+        damage.forEach(x ->this.addDamage((ArrayList<Integer>) x));
+    }
+
+    private void addDamage(ArrayList<Integer> d) {
+        this.damage.add(new Dice(d));
+    }
+
+    public List<ItemSlots> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(List<ItemSlots> slots) {
+        this.slots = (ArrayList<ItemSlots>) slots;
+    }
+
+    public List<DamageTypes> getDamageTypes() {
+        return damageTypes;
+    }
+
+    public void setDamageTypes(List<DamageTypes> damageTypes) {
+        this.damageTypes = (ArrayList<DamageTypes>) damageTypes;
     }
 
 
