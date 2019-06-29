@@ -15,8 +15,15 @@ public class ItemTest {
 
     @Test
     public void test_load_item() {
-        Item shortsword = new Item("src/test/resources/items/shortsword.json");
-        assertThat(shortsword.getName(), is("Short sword"));
+        Item pryl = new Item("src/test/resources/items/item.json");
+        assertThat(pryl.getName(), is("Pryl"));
     }
+
+    @Test
+    public void test_type() {
+        Item pryl = new Item("src/test/resources/items/item.json");
+        assertThat(pryl.getType(), is(ItemType.ITEM));
+    }
+
 
 }
