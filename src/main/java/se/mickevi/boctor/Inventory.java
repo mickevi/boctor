@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 public class Inventory {
     private int size = 10;
-    private ArrayList<Item> items = new ArrayList<Item>();
+    private ArrayList<Item> items = new ArrayList<>();
 
-    public Inventory() {};
+    public Inventory() {
+    }
 
     public void add(Item i) throws InventoryFullException {
         if (this.items.size() >= this.size) {
@@ -14,7 +15,23 @@ public class Inventory {
         }
         this.items.add(i);
     }
-    public int numItems() { return this.items.size(); }
+
+    public int numItems() {
+        return this.items.size();
+    }
+
+    public Item getItem(int i) {
+        return this.items.get(i);
+    }
+
+    public Weapon getWeapon(int i) throws InventoryWrongTypeException {
+
+        if (this.items.get(i).getType() == ItemType.WEAPON) {
+            return (Weapon) this.items.get(i);
+        }
+
+        throw new InventoryWrongTypeException("Item is not of type" + ItemType.WEAPON);
+    }
 
 
 }

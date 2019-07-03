@@ -1,4 +1,6 @@
 {
   "name": "Pryl",
-  "type": "ITEM"
+  "type": "ITEM",
+  "count": 1,
+  "value": 1
 }

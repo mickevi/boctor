@@ -41,6 +41,29 @@ public class InventoryTest {
         }
     }
     @Test
+    public void test_different_types() throws InventoryFullException, InventoryWrongTypeException {
+        Weapon wep = new Weapon("src/test/resources/weapons/shortsword.json");
+        Item item = new Item("Pryl", ItemType.ITEM);
+        Inventory in = new Inventory();
+        in.add(wep);
+        in.add(item);
+        Dice d = new Dice(1,6,1);
+        Weapon wep2 = in.getWeapon(0);
+        assertThat(wep2.getDamage(), is(wep.getDamage()));
+        assertThat(wep2.getType(), is (ItemType.WEAPON));
+        assertThat(in.getItem(1).getType(), is (ItemType.ITEM));
+
+    }
+
+    @Test(expected = InventoryWrongTypeException.class)
+    public void test_inventoryWrongException() throws InventoryFullException, InventoryWrongTypeException {
+        Item item = new Item("Pryl", ItemType.ITEM);
+        Inventory in = new Inventory();
+        in.add(item);
+        Weapon wep = in.getWeapon(0);
+    }
+
+    @Test
     @Ignore
     public void test_remove_item() {
 

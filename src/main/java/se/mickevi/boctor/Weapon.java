@@ -17,8 +17,8 @@ public class Weapon extends Item {
     }
 
     public Weapon(String name, List<ItemSlots> slots, List<DamageTypes> damageTypes,
-                  List<Dice> damage) {
-        super(name, ItemType.WEAPON);
+                  List<Dice> damage, int value) {
+        super(name, ItemType.WEAPON, value);
         this.slots = (ArrayList<ItemSlots>) slots;
         this.damageTypes = (ArrayList<DamageTypes>) damageTypes;
         this.damage = (ArrayList<Dice>) damage;
@@ -33,6 +33,7 @@ public class Weapon extends Item {
             this.damage = tmp.damage;
             this.slots = tmp.slots;
             this.damageTypes = tmp.damageTypes;
+            this.value = tmp.getValue();
         } catch (IOException e) {
             e.printStackTrace();
         }
