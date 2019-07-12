@@ -99,4 +99,20 @@ public class LivingTest {
         int totalMax = newTotal(l.getStats());
         assertThat(totalMax, is(maxValue));
     }
+
+    @Test
+    public void testEffectsSize() {
+        Living l = new Living(human, wizard);
+        assertThat(l.getEffects().getSize(), is(20));
+    }
+    @Test
+    public void testInventorySize() {
+        Living l = new Living(human, wizard);
+        assertThat(l.getInventory().getSize(), is(10));
+    }
+    @Test
+    public void testSpellesSize() {
+        Living l = new Living(human, wizard);
+        assertThat(l.getSpells().getSize(), is(10));
+    }
 }

@@ -11,6 +11,7 @@ public class Profession {
     String name;
     List<Integer> hp = new ArrayList<>();
     List<Integer> mana = new ArrayList<>();
+    int spellList = 0;
 
     public Profession(String fileName) {
         ObjectMapper mapper = new ObjectMapper();
@@ -20,6 +21,7 @@ public class Profession {
             this.name = tmp.getName();
             this.hp = tmp.getHp();
             this.mana = tmp.getMana();
+            this.spellList = tmp.getSpellList();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,6 +60,11 @@ public class Profession {
                 "name='" + name + '\'' +
                 ", hp=" + hp +
                 ", mana=" + mana +
+                ", spellList=" + spellList +
                 '}';
+    }
+
+    public int getSpellList() {
+        return this.spellList;
     }
 }

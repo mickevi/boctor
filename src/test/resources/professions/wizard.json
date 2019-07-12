@@ -1,5 +1,6 @@
 {
   "name": "Wizard",
+  "spellList": 10,
   "hp": [
     1,
     1,

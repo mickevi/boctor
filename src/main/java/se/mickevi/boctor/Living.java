@@ -1,18 +1,19 @@
 package se.mickevi.boctor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Living {
     public static final Dice dice = new Dice();
     private HashMap<String, Stat> stats = new HashMap();
-    private Inventory inventory = new Inventory();
+    private Inventory inventory;
+    private Inventory spells;
+    private Inventory effects;
+
 
 
     private Stat hp = new Stat("hp");
     private Stat mana = new Stat("mana");
-
+    private CombatObject cob;
 
     private Profession profession;
     private Race race;
@@ -25,12 +26,83 @@ public class Living {
     public Living(Race race, Profession profession) {
         this.profession = profession;
         this.race = race;
+        this.inventory = new Inventory();
+        Set<ItemType> types = EnumSet.of(ItemType.SPELL);
+        Set<ItemType> effects = EnumSet.of(ItemType.EFFECT);
+
+        this.spells = new Inventory(profession.getSpellList(), types);
+        this.effects = new Inventory(20, effects);
         this.reRoll();
+    }
+
+    public static Dice getDice() {
+        return dice;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public Inventory getSpells() {
+        return spells;
+    }
+
+    public void setSpells(Inventory spells) {
+        this.spells = spells;
+    }
+
+    public Inventory getEffects() {
+        return effects;
+    }
+
+    public void setEffects(Inventory effects) {
+        this.effects = effects;
+    }
+
+    public CombatObject getCob() {
+        return cob;
+    }
+
+    public void setCob(CombatObject cob) {
+        this.cob = cob;
+    }
+
+    public Profession getProfession() {
+        return profession;
+    }
+
+    public void setProfession(Profession p) {
+        this.profession = p;
+        reRoll();
+    }
+
+    public Race getRace() {
+        return race;
     }
 
     public void setRace(Race r) {
         this.race = r;
         reRoll();
+    }
+
+    public Integer getXp() {
+        return xp;
+    }
+
+    public void setXp(Integer xp) {
+        this.xp = xp;
+    }
+
+    public void reRoll() {
+        this.race.getStats().forEach((k, v) ->
+                getStats().put(k, new Stat(k, v))
+        );
+        this.hp.setBaseValue(hpRoll());
+        this.mana.setBaseValue(manaRoll());
     }
 
     public Integer getLevel() {
@@ -39,10 +111,6 @@ public class Living {
 
     public void setLevel(Integer l) {
         this.level = l;
-    }
-
-    public void setXp(Integer xp) {
-        this.xp = xp;
     }
 
     public void addXp(Integer amount) {
@@ -84,11 +152,6 @@ public class Living {
 
     }
 
-    public void setProfession(Profession p) {
-        this.profession = p;
-        reRoll();
-    }
-
     public int hpRoll() {
         return dice.roll(profession.getHp()) + getStat("Constitution").getBonus();
     }
@@ -98,14 +161,6 @@ public class Living {
             return 0;
         }
         return dice.roll(profession.getMana()) + getStat("Intelligence").getBonus();
-    }
-
-    public void reRoll() {
-        this.race.getStats().forEach((k, v) ->
-                getStats().put(k, new Stat(k, v))
-        );
-        this.hp.setBaseValue(hpRoll());
-        this.mana.setBaseValue(manaRoll());
     }
 
     public String getRaceName() {
@@ -119,6 +174,10 @@ public class Living {
     // Should only be used in tests.
     HashMap<String, Stat> getStats() {
         return stats;
+    }
+
+    public void setStats(HashMap<String, Stat> stats) {
+        this.stats = stats;
     }
 
     @Override
@@ -138,12 +197,20 @@ public class Living {
         return mana.getCurrentValue();
     }
 
+    public void setMana(Stat mana) {
+        this.mana = mana;
+    }
+
     public int getMaxMana() {
         return mana.getBaseValue();
     }
 
     public int getHp() {
         return hp.getCurrentValue();
+    }
+
+    public void setHp(Stat hp) {
+        this.hp = hp;
     }
 
     public int getMaxHp() {

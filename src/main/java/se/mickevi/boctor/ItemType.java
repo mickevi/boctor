@@ -4,5 +4,6 @@ public enum ItemType {
     ITEM,
     WEAPON,
     ARMOR,
-    BAG
+    SPELL,
+    EFFECT
 }

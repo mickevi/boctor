@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
@@ -15,7 +18,14 @@ public class InventoryTest {
     }
 
     @Test
-    public void test_add_one() {
+    public void testConstructor() {
+        Set<ItemType> effects = EnumSet.of(ItemType.EFFECT);
+        Inventory i = new Inventory(10, effects);
+        assertThat(i.getSize(), is(10));
+    }
+
+    @Test
+    public void test_add_one() throws InventoryFullException, InventoryWrongTypeException{
         Item i = new Item("pryl1", ItemType.ARMOR);
         Inventory in = new Inventory();
         try {
@@ -27,7 +37,7 @@ public class InventoryTest {
     }
 
     @Test
-    public void test_inventory_full_at_10() {
+    public void test_inventory_full_at_10() throws InventoryFullException, InventoryWrongTypeException{
         Inventory in = new Inventory();
         int isize = 0;
         try {
@@ -62,6 +72,15 @@ public class InventoryTest {
         in.add(item);
         Weapon wep = in.getWeapon(0);
     }
+    @Test(expected = InventoryWrongTypeException.class)
+    public void test_add_wrong_itemtype() throws InventoryWrongTypeException, InventoryFullException{
+        Item item = new Item("spell", ItemType.WEAPON);
+        Set<ItemType> types = EnumSet.of(ItemType.SPELL);
+        Inventory in = new Inventory(2, types);
+        in.add(item);
+
+    }
+
 
     @Test
     @Ignore

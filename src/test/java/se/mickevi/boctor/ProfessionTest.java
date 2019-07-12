@@ -33,4 +33,12 @@ public class ProfessionTest {
         List<Integer> expected = Arrays.asList(0, 0, 0);
         assertThat(warrior.getMana(), is(expected));
     }
+
+    @Test
+    public void testSpell_list() {
+        Profession wizard = new Profession("src/test/resources/professions/wizard.json");
+        assertThat(wizard.getSpellList(), is(10));
+        assertThat(this.warrior.getSpellList(), is(0));
+    }
+
 }
