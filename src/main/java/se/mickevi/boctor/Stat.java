@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 
 public class Stat {
-    public Dice dice;
+    Dice dice;
     int baseValue;
     int currentValue;
     int maxValue = 0;
@@ -18,6 +18,7 @@ public class Stat {
         this.maxValue = maxValue;
         this.name = name;
     }
+    public Stat() {}
 
     public Stat(String name, Dice d) {
         SetupStat(name, d);

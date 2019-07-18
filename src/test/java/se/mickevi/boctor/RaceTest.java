@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -31,9 +30,10 @@ public class RaceTest {
 
     @Test
     public void stat_str() {
-        List<Integer> expected = Arrays.asList(3, 6, 0);
-        assertThat(human.getStat("Strength"), is(expected));
-
+        // 3d6 + 0
+        assertThat(human.getStat("Strength").getDice().getDices(), is(3));
+        assertThat(human.getStat("Strength").getDice().getEyes(), is(6));
+        assertThat(human.getStat("Strength").getDice().getBonus(), is(0));
     }
 
     @Test
@@ -77,9 +77,9 @@ public class RaceTest {
         System.out.println("THIS IS IT:" + r.toString());
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            System.out.println("Stats.json: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(stats));
+            // System.out.println("Stats.json: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(stats));
             // System.out.println("Stat.json: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(strength));
-            System.out.println("Stats2.json: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(r.getStats()));
+            // System.out.println("Stats2.json: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(r.getStats()));
             System.out.println("THIS IS JSON: " + objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(r));
         } catch (IOException e) {
             // e.printStackTrace();
@@ -90,7 +90,34 @@ public class RaceTest {
 
     @Test
     public void testBodyParts() {
-        BodyPart arm = new BodyPart("Left arm", ItemSlots.ARMOR_ARMS, 10 );
-        assertThat(this.human.getBody().contains(arm), is(true));
+
+        assertThat(this.human.getBodyPart("Left arm").slot, is(ItemSlots.ARMOR_ARMS));
     }
+
+    public int newTotal(List<Stat> stats) {
+        // int total = stats.values().stream().map(stat -> stat.getCurrentValue()).reduce(0, (a, b) -> a + b);
+        int total = stats.stream().mapToInt(x -> x.getCurrentValue()).sum();
+        return total;
+    }
+    @Test
+    public void testStatIncrease() {
+        Race r = new Race("src/test/resources/races/human.json");
+
+        int totalL1 = newTotal(r.getStats());
+        int maxValue = r.getStats().stream().mapToInt((x -> x.getMaxValue())).sum();
+        System.out.println("Total: " + totalL1);
+        System.out.println("Max  : " + maxValue);
+        r.increaseRandomStat();
+        int totalL4 = newTotal(r.getStats());
+        assertThat(totalL4, is(totalL1 + 1));
+        for (int i = 0; i < 50; i++) {
+            r.increaseRandomStat();
+        }
+        int totalMax = newTotal(r.getStats());
+        for (Stat x: r.getStats()) {
+            System.out.println(x.getName() + " : " + x.getCurrentValue() + "(" + x.getMaxValue() + ")");
+        }
+        assertThat(totalMax, is(maxValue));
+    }
+
 }

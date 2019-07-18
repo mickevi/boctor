@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Living {
     public static final Dice dice = new Dice();
-    private HashMap<String, Stat> stats = new HashMap(); // TODO move to Race
+    //private HashMap<String, Stat> stats = new HashMap(); // TODO move to Race
     private Inventory inventory;
     private Inventory spells;
     private Inventory effects;
@@ -90,7 +90,10 @@ public class Living {
     }
 
     public void reRoll() {
-        this.race.getStats().forEach(stat->reRoll());
+
+        for (Stat s: race.getStats()) {
+            s.ReRoll();
+        }
 
         this.hp.setBaseValue(hpRoll());
         this.mana.setBaseValue(manaRoll());
@@ -123,49 +126,32 @@ public class Living {
         this.level++;
         // Every 4 levels gives a random stat increase
         if ((this.level % 4) == 0) {
-            increaseRandomStat();
+            race.increaseRandomStat();
         }
     }
 
-    private void increaseRandomStat() {
-        List<String> names = new ArrayList<>(getStats().keySet());
-        while (!names.isEmpty()) {
-            int rnd = dice.roll(1, names.size(), -1);
-            String stat = names.get(rnd);
-            if (getStats().get(stat).maxValue > getStats().get(stat).currentValue) {
-                getStats().get(stat).increase(1);
-                break;
-            } else {
-                names.remove(rnd);
-            }
-        }
 
-
-    }
 
     public int hpRoll() {
-        return dice.roll(profession.getHp()) + getStat("Constitution").getBonus();
+        // System.out.println("Con:" + race.getStat("Constitution").getBaseValue() + "(" + race.getStat("Constitution").getBonus()+ ")");
+        // System.out.println("HP:" + profession.getHp());
+        return dice.roll(profession.getHp()) + race.getStat("Constitution").getBonus();
     }
 
     public int manaRoll() {
         if (profession.getMana().get(0) == 0) {
             return 0;
         }
-        return dice.roll(profession.getMana()) + getStat("Intelligence").getBonus();
+        return dice.roll(profession.getMana()) + race.getStat("Intelligence").getBonus();
     }
 
     public String getRaceName() {
         return race.getName();
     }
 
-    public Stat getStat(String name) {
-        return getStats().get(name);
-    }
 
-    // Should only be used in tests.
-    HashMap<String, Stat> getStats() {
-        return stats;
-    }
+
+
 
 
     @Override
@@ -173,7 +159,6 @@ public class Living {
         return "Living{" +
                 "level=" + level +
                 ", xp=" + xp +
-                "stats=" + getStats() +
                 ", race=" + race +
                 ", profession=" + profession +
                 ", hp=" + hp +

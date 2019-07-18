@@ -51,26 +51,54 @@ public class Race {
     public void setName(String n) {
         this.name = n;
     }
-    List<Stat> getStats() {
+    public List<Stat> getStats() {
         return stats;
     }
 
     @JsonIgnore
     public Stat getStat(String name) {
         for (Stat stat: this.stats) {
-            if (stat.getName() == name) {
+            if (stat.getName().equals(name)) {
                 return stat;
+            }
+        }
+        System.out.println("Did not find " + name + " in list:" + stats);
+        return null;
+    }
+
+    public BodyPart getBodyPart(String name) {
+        for (BodyPart bp: this.body) {
+            if (bp.getName().equals(name)) {
+                return bp;
             }
         }
         return null;
     }
 
 
-
     void setStats(List<Stat> s) {
         stats = (ArrayList<Stat>) s;
     }
 
+    public void increaseRandomStat() {
+        ArrayList<Integer> index = new ArrayList<Integer>();
+        for (int i=0; i<stats.size(); i++) {
+            index.add(0);
+        }
+
+        while (!index.isEmpty()) {
+            int rnd = stats.get(0).dice.roll(1, index.size(), -1);
+            // String stat = names.get(rnd);
+            if (stats.get(rnd).maxValue > stats.get(rnd).currentValue) {
+                stats.get(rnd).increase(1);
+                break;
+            } else {
+                index.remove(rnd);
+            }
+        }
+
+
+    }
     public void addStat(String name, Integer d, Integer n, Integer m) {
         List<Integer> l = new ArrayList<>();
         l.add(d);

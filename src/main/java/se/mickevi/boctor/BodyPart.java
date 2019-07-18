@@ -21,6 +21,8 @@ public class BodyPart {
         this.hitChance = hitChance;
     }
 
+    public BodyPart() {}
+
     public int getHitChance() {
         return hitChance;
     }

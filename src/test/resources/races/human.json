@@ -1,65 +1,105 @@
 {
-  "name": "Human",
-  "body": [
-    {
-      "name": "Head",
-      "slot": "ARMOR_HEAD",
-      "equipped_item": null,
-      "hitChance": 10
+  "name" : "Human",
+  "stats" : [ {
+    "dice" : {
+      "dices" : 3,
+      "eyes" : 6,
+      "bonus" : 0
     },
-    {
-      "name": "Left arm",
-      "slot": "ARMOR_ARMS",
-      "equipped_item": null,
-      "hitChance": 15
+    "baseValue" : 10,
+    "currentValue" : 10,
+    "maxValue" : 18,
+    "name" : "Strength"
+  }, {
+    "dice" : {
+      "dices" : 3,
+      "eyes" : 6,
+      "bonus" : 0
     },
-    {
-      "name": "Right arm",
-      "slot": "ARMOR_ARMS",
-      "equipped_item": null,
-      "hitChance": 15
+    "baseValue" : 6,
+    "currentValue" : 6,
+    "maxValue" : 18,
+    "name" : "Dexterity"
+  }, {
+    "dice" : {
+      "dices" : 3,
+      "eyes" : 6,
+      "bonus" : 0
     },
-    {
-      "name": "body",
-      "slot": "ARMOR_BODY",
-      "equipped_item": null,
-      "hitChance": 20
+    "baseValue" : 9,
+    "currentValue" : 9,
+    "maxValue" : 18,
+    "name" : "Constitution"
+  }, {
+    "dice" : {
+      "dices" : 3,
+      "eyes" : 6,
+      "bonus" : 0
     },
-    {
-      "name": "left leg",
-      "slot": "ARMOR_LEGS",
-      "equipped_item": null,
-      "hitChance": 10
+    "baseValue" : 10,
+    "currentValue" : 10,
+    "maxValue" : 18,
+    "name" : "Intelligence"
+  }, {
+    "dice" : {
+      "dices" : 3,
+      "eyes" : 6,
+      "bonus" : 0
     },
-    {
-      "name": "right leg",
-      "slot": "ARMOR_LEGS",
-      "equipped_item": null,
-      "hitChance": 10
-    },
-    {
-      "name": "Left foot",
-      "slot": "ARMOR_FEET",
-      "equipped_item": null,
-      "hitChance": 10
-    },
-    {
-      "name": "Right foot",
-      "slot": "ARMOR_FEET",
-      "equipped_item": null,
-      "hitChance": 10
-    },
-    {
-      "name": "Right hand",
-      "slot": "WEAPON_PRIMARY_HAND",
-      "equipped_item": null,
-      "hitChance": 0
-    },
-    {
-      "name": "Left hand",
-      "slot": "WEAPON_OFF_HAND",
-      "equipped_item": null,
-      "hitChance": 0
-    }
-  ]
+    "baseValue" : 15,
+    "currentValue" : 15,
+    "maxValue" : 18,
+    "name" : "Wisdom"
+  } ],
+  "body" : [ {
+    "name" : "Head",
+    "slot" : "ARMOR_HEAD",
+    "equipped_item" : null,
+    "hitChance" : 10
+  }, {
+    "name" : "Left arm",
+    "slot" : "ARMOR_ARMS",
+    "equipped_item" : null,
+    "hitChance" : 15
+  }, {
+    "name" : "Right arm",
+    "slot" : "ARMOR_ARMS",
+    "equipped_item" : null,
+    "hitChance" : 15
+  }, {
+    "name" : "body",
+    "slot" : "ARMOR_BODY",
+    "equipped_item" : null,
+    "hitChance" : 20
+  }, {
+    "name" : "left leg",
+    "slot" : "ARMOR_LEGS",
+    "equipped_item" : null,
+    "hitChance" : 10
+  }, {
+    "name" : "right leg",
+    "slot" : "ARMOR_LEGS",
+    "equipped_item" : null,
+    "hitChance" : 10
+  }, {
+    "name" : "Left foot",
+    "slot" : "ARMOR_FEET",
+    "equipped_item" : null,
+    "hitChance" : 10
+  }, {
+    "name" : "Right foot",
+    "slot" : "ARMOR_FEET",
+    "equipped_item" : null,
+    "hitChance" : 10
+  }, {
+    "name" : "Right hand",
+    "slot" : "WEAPON_PRIMARY_HAND",
+    "equipped_item" : null,
+    "hitChance" : 0
+  }, {
+    "name" : "Left hand",
+    "slot" : "WEAPON_OFF_HAND",
+    "equipped_item" : null,
+    "hitChance" : 0
+  } ]
 }
