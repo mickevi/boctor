@@ -1,17 +1,19 @@
 package se.mickevi.boctor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Race {
 
     String name;
-    HashMap<String, List<Integer>> stats = new HashMap<>();
+    ArrayList<Stat> stats = new ArrayList<>();
+    ArrayList<BodyPart> body = new ArrayList<>();
+
 
     public Race(String fileName) {
         ObjectMapper mapper = new ObjectMapper();
@@ -20,14 +22,26 @@ public class Race {
             File jsonFile = new File(fileName);
             Race tmp = mapper.readValue(jsonFile, Race.class);
             this.name = tmp.getName();
-            this.stats = tmp.getStats();
+            this.stats = (ArrayList<Stat>) tmp.getStats();
+            this.body = (ArrayList<BodyPart>) tmp.getBody();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     public Race() {
+        /*
+        Used for testing only..
+         */
+    }
+
+    public List<BodyPart> getBody() {
+        return body;
+    }
+
+
+    public void setBody(List<BodyPart> body) {
+        this.body = (ArrayList<BodyPart>) body;
     }
 
     public String getName() {
@@ -37,17 +51,24 @@ public class Race {
     public void setName(String n) {
         this.name = n;
     }
-
-    public List<Integer> getStat(String name) {
-        return this.stats.get(name);
-    }
-
-    HashMap<String, List<Integer>> getStats() {
+    List<Stat> getStats() {
         return stats;
     }
 
-    void setStats(HashMap<String, List<Integer>> s) {
-        stats = s;
+    @JsonIgnore
+    public Stat getStat(String name) {
+        for (Stat stat: this.stats) {
+            if (stat.getName() == name) {
+                return stat;
+            }
+        }
+        return null;
+    }
+
+
+
+    void setStats(List<Stat> s) {
+        stats = (ArrayList<Stat>) s;
     }
 
     public void addStat(String name, Integer d, Integer n, Integer m) {
@@ -55,12 +76,16 @@ public class Race {
         l.add(d);
         l.add(n);
         l.add(m);
-
-        this.stats.put(name, l);
+        Stat s = new Stat(name, l);
+        this.stats.add(s);
     }
 
     @Override
     public String toString() {
-        return this.name + " " + this.stats.toString();
+        return "Race{" +
+                "name='" + name + '\'' +
+                ", stats=" + stats +
+                ", body=" + body +
+                '}';
     }
 }

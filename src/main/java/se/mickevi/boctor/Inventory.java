@@ -52,6 +52,7 @@ public class Inventory {
 
         if (this.items.get(i).getType() == ItemType.WEAPON) {
             return (Weapon) this.items.get(i);
+
         }
 
         throw new InventoryWrongTypeException("Item is not of type" + ItemType.WEAPON);

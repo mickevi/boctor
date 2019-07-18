@@ -1,15 +1,25 @@
 package se.mickevi.boctor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
 public class Dice {
+    @JsonIgnore
     Random d = new Random();
     Integer dices;
     Integer eyes;
     Integer bonus;
+
+    public Dice(Random d, Integer dices, Integer eyes, Integer bonus) {
+        this.d = d;
+        this.dices = dices;
+        this.eyes = eyes;
+        this.bonus = bonus;
+    }
 
     public Dice(Integer dices, Integer eyes, Integer bonus) {
         this.dices = dices;
@@ -24,6 +34,14 @@ public class Dice {
     }
 
     public Dice() {}
+
+    public Random getD() {
+        return d;
+    }
+
+    public void setD(Random d) {
+        this.d = d;
+    }
 
     public Integer getDices() {
         return dices;
@@ -61,6 +79,15 @@ public class Dice {
     }
     public int min() {
         return (this.dices * 1) + this.bonus;
+    }
+
+    @Override
+    public String toString() {
+        return "Dice{" +
+                "dices=" + dices +
+                ", eyes=" + eyes +
+                ", bonus=" + bonus +
+                '}';
     }
 
     public int roll(int times, int eyes, int modifier) {

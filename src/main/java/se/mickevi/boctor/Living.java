@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Living {
     public static final Dice dice = new Dice();
-    private HashMap<String, Stat> stats = new HashMap();
+    private HashMap<String, Stat> stats = new HashMap(); // TODO move to Race
     private Inventory inventory;
     private Inventory spells;
     private Inventory effects;
@@ -13,26 +13,25 @@ public class Living {
 
     private Stat hp = new Stat("hp");
     private Stat mana = new Stat("mana");
-    private CombatObject cob;
 
     private Profession profession;
     private Race race;
     private Integer xp = 0;
     private Integer level = 1;
 
-    public Living() {
-    }
+
 
     public Living(Race race, Profession profession) {
         this.profession = profession;
         this.race = race;
         this.inventory = new Inventory();
         Set<ItemType> types = EnumSet.of(ItemType.SPELL);
-        Set<ItemType> effects = EnumSet.of(ItemType.EFFECT);
+        Set<ItemType> effect = EnumSet.of(ItemType.EFFECT);
 
         this.spells = new Inventory(profession.getSpellList(), types);
-        this.effects = new Inventory(20, effects);
+        this.effects = new Inventory(20, effect);
         this.reRoll();
+
     }
 
     public static Dice getDice() {
@@ -63,13 +62,6 @@ public class Living {
         this.effects = effects;
     }
 
-    public CombatObject getCob() {
-        return cob;
-    }
-
-    public void setCob(CombatObject cob) {
-        this.cob = cob;
-    }
 
     public Profession getProfession() {
         return profession;
@@ -98,9 +90,8 @@ public class Living {
     }
 
     public void reRoll() {
-        this.race.getStats().forEach((k, v) ->
-                getStats().put(k, new Stat(k, v))
-        );
+        this.race.getStats().forEach(stat->reRoll());
+
         this.hp.setBaseValue(hpRoll());
         this.mana.setBaseValue(manaRoll());
     }
@@ -176,9 +167,6 @@ public class Living {
         return stats;
     }
 
-    public void setStats(HashMap<String, Stat> stats) {
-        this.stats = stats;
-    }
 
     @Override
     public String toString() {
@@ -217,5 +205,22 @@ public class Living {
         return hp.getBaseValue();
     }
 
+    public void addItem(Item i) throws InventoryWrongTypeException, InventoryFullException{
+        this.inventory.add(i);
+    }
 
+    public void equipItem(int i) throws InventoryNoSuchItemException {
+        try {
+            ItemType t = this.inventory.getItem(0).getType();
+
+        } catch (IndexOutOfBoundsException e) {
+            throw new InventoryNoSuchItemException("Item " + i + " not found in inventory");
+        }
+
+    }
+
+    public List getEquippedItems() {
+        ArrayList<Item> l =  new ArrayList<>();
+        return l;
+    }
 }

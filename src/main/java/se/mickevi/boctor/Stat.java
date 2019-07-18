@@ -1,31 +1,58 @@
 package se.mickevi.boctor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public class Stat {
-    public static final Dice dice = new Dice();
+    public Dice dice;
     int baseValue;
     int currentValue;
     int maxValue = 0;
     String name;
 
-    public Stat(String name, int baseValue) {
+    public Stat(Dice dice, int baseValue, int currentValue, int maxValue, String name) {
+        this.dice = dice;
         this.baseValue = baseValue;
-        this.currentValue = baseValue;
+        this.currentValue = currentValue;
+        this.maxValue = maxValue;
         this.name = name;
     }
 
-    public Stat(String name, List<Integer> dices) {
-        this.maxValue = dices.get(0) * dices.get(1) + dices.get(2);
-        this.currentValue = dice.roll(dices);
-        this.baseValue = this.currentValue;
-        this.name = name;
+    public Stat(String name, Dice d) {
+        SetupStat(name, d);
     }
-
+    public Stat(String name, List<Integer> d) {
+        Dice dice = new Dice(d.get(0), d.get(1), d.get(2));
+        SetupStat(name, dice);
+    }
     public Stat(String name) {
         this.name = name;
         this.baseValue = 0;
         this.currentValue = 0;
+        this.dice = new Dice();
+    }
+
+    public Dice getDice() {
+        return dice;
+    }
+
+    public void setDice(Dice dice) {
+        this.dice = dice;
+    }
+
+    public void SetupStat(String name, Dice d) {
+        this.dice = d;
+        this.maxValue = d.getDices() * d.getEyes() + d.getBonus();
+        this.currentValue = this.dice.roll();
+        this.baseValue = this.currentValue;
+        this.name = name;
+    }
+
+    public int ReRoll() {
+        this.currentValue = this.dice.roll();
+        this.baseValue = this.currentValue;
+        return this.currentValue;
     }
 
     public int getBaseValue() {
@@ -42,6 +69,10 @@ public class Stat {
         return maxValue;
     }
 
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+    }
+
     public int bonus(int b) {
         if (b <= 3) {
             return 0;
@@ -56,11 +87,11 @@ public class Stat {
         }
         return 5;
     }
-
+    @JsonIgnore
     public int getBonus() {
         return bonus(baseValue);
     }
-
+    @JsonIgnore
     public int getCurrentBonus() {
         return bonus(currentValue);
     }
@@ -84,10 +115,11 @@ public class Stat {
     @Override
     public String toString() {
         return "Stat{" +
-                "baseValue=" + baseValue +
+                "dice=" + dice +
+                ", baseValue=" + baseValue +
                 ", currentValue=" + currentValue +
-                ", name='" + name + '\'' +
                 ", maxValue=" + maxValue +
+                ", name='" + name + '\'' +
                 '}';
     }
 

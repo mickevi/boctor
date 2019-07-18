@@ -1,6 +1,7 @@
 package se.mickevi.boctor;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -114,5 +115,22 @@ public class LivingTest {
     public void testSpellesSize() {
         Living l = new Living(human, wizard);
         assertThat(l.getSpells().getSize(), is(10));
+    }
+
+    @Test
+    @Ignore
+    public void testEquipWeapon() throws Exception {
+        Weapon weapon = new Weapon("src/test/resources/weapons/shortsword.json");
+        Living l = new Living(human, warrior);
+        l.addItem(weapon);
+        l.equipItem(0);
+        assertThat(l.getEquippedItems().contains(weapon), is(true));
+    }
+    @Test(expected = InventoryNoSuchItemException.class)
+    public void testEquipWeaponException() throws Exception {
+
+        Living l = new Living(human, warrior);
+
+        l.equipItem(0);
     }
 }
