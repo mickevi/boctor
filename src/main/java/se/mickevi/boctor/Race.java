@@ -10,9 +10,9 @@ import java.util.List;
 
 public class Race {
 
-    String name;
-    ArrayList<Stat> stats = new ArrayList<>();
-    ArrayList<BodyPart> body = new ArrayList<>();
+    private String name;
+    private ArrayList<Stat> stats = new ArrayList<>();
+    private ArrayList<BodyPart> body = new ArrayList<>();
 
 
     public Race(String fileName) {
@@ -35,7 +35,7 @@ public class Race {
          */
     }
 
-    public List<BodyPart> getBody() {
+    List<BodyPart> getBody() {
         return body;
     }
 
@@ -62,7 +62,6 @@ public class Race {
                 return stat;
             }
         }
-        System.out.println("Did not find " + name + " in list:" + stats);
         return null;
     }
 
@@ -81,16 +80,15 @@ public class Race {
     }
 
     public void increaseRandomStat() {
-        ArrayList<Integer> index = new ArrayList<Integer>();
+        ArrayList<Integer> index = new ArrayList<>();
         for (int i=0; i<stats.size(); i++) {
-            index.add(0);
+            index.add(i);
         }
 
         while (!index.isEmpty()) {
             int rnd = stats.get(0).dice.roll(1, index.size(), -1);
-            // String stat = names.get(rnd);
-            if (stats.get(rnd).maxValue > stats.get(rnd).currentValue) {
-                stats.get(rnd).increase(1);
+            if (stats.get(index.get(rnd)).maxValue > stats.get(index.get(rnd)).getBaseValue()) {
+                stats.get(index.get(rnd)).increase(1);
                 break;
             } else {
                 index.remove(rnd);

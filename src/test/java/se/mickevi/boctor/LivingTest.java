@@ -93,6 +93,9 @@ public class LivingTest {
         int maxValue = l.getRace().getStats().stream().mapToInt((x -> x.getMaxValue())).sum();
         System.out.println("Total:" + totalL1);
         System.out.println("Max:" + maxValue);
+        for (Stat s: l.getRace().getStats()) {
+            System.out.println(s.getName() + ":" + s.getCurrentValue() + " (" + s.getBonus() + ")");
+        }
         l.levelUp();
         l.levelUp();
         // Level 3,
@@ -103,10 +106,15 @@ public class LivingTest {
         assertThat(totalL4, is(totalL1 + 1));
         for (int i = 0; i < 164; i++) {
             l.levelUp();
+            System.out.println(newTotal(l.getRace().getStats()));
         }
 
         int totalMax = newTotal(l.getRace().getStats());
-        System.out.println("TotalMa:" + totalMax);
+        System.out.println("TotalMax:" + totalMax);
+        System.out.println("Stat: currentValue: bonus");
+        for (Stat s: l.getRace().getStats()) {
+            System.out.println(s.getName() + ":" + s.getCurrentValue() + " (" + s.getBonus() + ")");
+        }
         assertThat(totalMax, is(maxValue));
     }
 

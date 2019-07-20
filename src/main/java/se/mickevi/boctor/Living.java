@@ -4,7 +4,6 @@ import java.util.*;
 
 public class Living {
     public static final Dice dice = new Dice();
-    //private HashMap<String, Stat> stats = new HashMap(); // TODO move to Race
     private Inventory inventory;
     private Inventory spells;
     private Inventory effects;
@@ -89,10 +88,10 @@ public class Living {
         this.xp = xp;
     }
 
-    public void reRoll() {
+    private void reRoll() {
 
         for (Stat s: race.getStats()) {
-            s.ReRoll();
+            s.reRoll();
         }
 
         this.hp.setBaseValue(hpRoll());
@@ -127,18 +126,17 @@ public class Living {
         // Every 4 levels gives a random stat increase
         if ((this.level % 4) == 0) {
             race.increaseRandomStat();
+            System.out.println("Level:" + level);
         }
     }
 
 
 
-    public int hpRoll() {
-        // System.out.println("Con:" + race.getStat("Constitution").getBaseValue() + "(" + race.getStat("Constitution").getBonus()+ ")");
-        // System.out.println("HP:" + profession.getHp());
+    private int hpRoll() {
         return dice.roll(profession.getHp()) + race.getStat("Constitution").getBonus();
     }
 
-    public int manaRoll() {
+    private int manaRoll() {
         if (profession.getMana().get(0) == 0) {
             return 0;
         }
@@ -194,18 +192,53 @@ public class Living {
         this.inventory.add(i);
     }
 
+    void equipWeapon(int i) {
+        /*
+        check for restriction
+        Move item from inventory to bodypart matching itemslot
+
+        if item already in bodypart, move that to inventory
+
+        if possible, us same function for armor and effects
+         */
+    }
+
+    void equipArmor(int i) {
+        // not done yet
+    }
+
+    void equipEffect(int i) {
+        /*
+        Not done yet
+         */
+    }
     public void equipItem(int i) throws InventoryNoSuchItemException {
         try {
             ItemType t = this.inventory.getItem(0).getType();
+            switch (t) {
+                case WEAPON: equipWeapon(i);
+                break;
+                case ARMOR: equipArmor(i);
+                break;
+                case EFFECT: equipEffect(i);
+                break;
+                default:
+            }
 
         } catch (IndexOutOfBoundsException e) {
             throw new InventoryNoSuchItemException("Item " + i + " not found in inventory");
         }
 
+
     }
 
     public List getEquippedItems() {
         ArrayList<Item> l =  new ArrayList<>();
+        for (BodyPart b: race.getBody()) {
+            if ( b.getEquippedItem() != null) {
+                l.add(b.getEquippedItem());
+            }
+        }
         return l;
     }
 }

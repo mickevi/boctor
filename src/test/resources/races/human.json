@@ -54,52 +54,52 @@
   "body" : [ {
     "name" : "Head",
     "slot" : "ARMOR_HEAD",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 10
   }, {
     "name" : "Left arm",
     "slot" : "ARMOR_ARMS",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 15
   }, {
     "name" : "Right arm",
     "slot" : "ARMOR_ARMS",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 15
   }, {
     "name" : "body",
     "slot" : "ARMOR_BODY",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 20
   }, {
     "name" : "left leg",
     "slot" : "ARMOR_LEGS",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 10
   }, {
     "name" : "right leg",
     "slot" : "ARMOR_LEGS",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 10
   }, {
     "name" : "Left foot",
     "slot" : "ARMOR_FEET",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 10
   }, {
     "name" : "Right foot",
     "slot" : "ARMOR_FEET",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 10
   }, {
     "name" : "Right hand",
     "slot" : "WEAPON_PRIMARY_HAND",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 0
   }, {
     "name" : "Left hand",
     "slot" : "WEAPON_OFF_HAND",
-    "equipped_item" : null,
+    "equippedItem" : null,
     "hitChance" : 0
   } ]
 }

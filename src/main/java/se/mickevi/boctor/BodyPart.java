@@ -4,20 +4,20 @@ public class BodyPart {
     /*
         hitChance of all bodyparts must be 100 in total.
          */
-    String name;
+    private String name;
     ItemSlots slot;
-    Item equipped_item;
-    int hitChance;
+    private Item equippedItem;
+    private int hitChance;
     public BodyPart(String name, ItemSlots slot, int hitChance) {
         this.name = name;
         this.slot = slot;
         this.hitChance = hitChance;
     }
 
-    public BodyPart(String name, ItemSlots slot, Item equipped_item, int hitChance) {
+    public BodyPart(String name, ItemSlots slot, Item equippedItem, int hitChance) {
         this.name = name;
         this.slot = slot;
-        this.equipped_item = equipped_item;
+        this.equippedItem = equippedItem;
         this.hitChance = hitChance;
     }
 
@@ -47,12 +47,12 @@ public class BodyPart {
         this.slot = slot;
     }
 
-    public Item getEquipped_item() {
-        return equipped_item;
+    Item getEquippedItem() {
+        return equippedItem;
     }
 
-    public void setEquipped_item(Item equipped_item) {
-        this.equipped_item = equipped_item;
+    public void setEquippedItem(Item equippedItem) {
+        this.equippedItem = equippedItem;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class BodyPart {
         return "BodyPart{" +
                 "name='" + name + '\'' +
                 ", slot=" + slot +
-                ", equipped_item=" + equipped_item +
+                ", equipped_item=" + equippedItem +
                 ", hitChance=" + hitChance +
                 '}';
     }

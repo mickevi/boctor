@@ -6,10 +6,10 @@ import java.util.List;
 
 public class Stat {
     Dice dice;
-    int baseValue;
+    private int baseValue;
     int currentValue;
     int maxValue = 0;
-    String name;
+    private String name;
 
     public Stat(Dice dice, int baseValue, int currentValue, int maxValue, String name) {
         this.dice = dice;
@@ -21,11 +21,11 @@ public class Stat {
     public Stat() {}
 
     public Stat(String name, Dice d) {
-        SetupStat(name, d);
+        setupStat(name, d);
     }
     public Stat(String name, List<Integer> d) {
-        Dice dice = new Dice(d.get(0), d.get(1), d.get(2));
-        SetupStat(name, dice);
+        Dice tmpDice = new Dice(d.get(0), d.get(1), d.get(2));
+        setupStat(name, tmpDice);
     }
     public Stat(String name) {
         this.name = name;
@@ -42,7 +42,7 @@ public class Stat {
         this.dice = dice;
     }
 
-    public void SetupStat(String name, Dice d) {
+    private void setupStat(String name, Dice d) {
         this.dice = d;
         this.maxValue = d.getDices() * d.getEyes() + d.getBonus();
         this.currentValue = this.dice.roll();
@@ -50,17 +50,17 @@ public class Stat {
         this.name = name;
     }
 
-    public int ReRoll() {
+    int reRoll() {
         this.currentValue = this.dice.roll();
         this.baseValue = this.currentValue;
         return this.currentValue;
     }
 
-    public int getBaseValue() {
+    int getBaseValue() {
         return baseValue;
     }
 
-    public void setBaseValue(int baseValue) {
+    void setBaseValue(int baseValue) {
 
         this.baseValue = baseValue;
         this.currentValue = baseValue;
@@ -89,7 +89,7 @@ public class Stat {
         return 5;
     }
     @JsonIgnore
-    public int getBonus() {
+    int getBonus() {
         return bonus(baseValue);
     }
     @JsonIgnore
@@ -124,7 +124,7 @@ public class Stat {
                 '}';
     }
 
-    public void increase(int value) {
+    void increase(int value) {
         currentValue += value;
         baseValue += value;
     }

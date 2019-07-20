@@ -102,16 +102,23 @@ public class RaceTest {
     @Test
     public void testStatIncrease() {
         Race r = new Race("src/test/resources/races/human.json");
-
+        for (Stat s: r.getStats()) {
+            s.setBaseValue(10);
+        }
         int totalL1 = newTotal(r.getStats());
         int maxValue = r.getStats().stream().mapToInt((x -> x.getMaxValue())).sum();
         System.out.println("Total: " + totalL1);
         System.out.println("Max  : " + maxValue);
         r.increaseRandomStat();
-        int totalL4 = newTotal(r.getStats());
-        assertThat(totalL4, is(totalL1 + 1));
-        for (int i = 0; i < 50; i++) {
+        int total = newTotal(r.getStats());
+        assertThat(total, is(totalL1 + 1));
+        System.out.println("Total: " + total);
+        for (int i = 0; i <= 38; i++) {
             r.increaseRandomStat();
+            assertThat(newTotal(r.getStats()), is(total +1));
+            total = newTotal(r.getStats());
+            System.out.println("New total:" + total);
+            System.out.println(i);
         }
         int totalMax = newTotal(r.getStats());
         for (Stat x: r.getStats()) {
