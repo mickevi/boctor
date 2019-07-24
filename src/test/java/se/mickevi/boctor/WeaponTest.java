@@ -13,9 +13,10 @@ public class WeaponTest {
         assertThat(weapon.getName(), is("Short sword"));
         Dice d = new Dice(1,6,1);
         assertThat(weapon.getDamage().get(0), is(d));
-        assertThat(weapon.getSlots().get(0), is(ItemSlots.WEAPON_ANY_HAND));
+        assertThat(weapon.getSlots(), is(ItemSlots.WEAPON_HAND));
         assertThat(weapon.getDamageTypes().get(0), is(DamageTypes.PHYSICAL_SLASH));
         assertThat(weapon.getValue(), is(100));
+        assertThat(weapon.getHands(), is(1));
     }
 
     @Test
@@ -27,8 +28,10 @@ public class WeaponTest {
         Dice f = new Dice(1,4,1);
         assertThat(weapon.getDamage().get(0), is(d));
         assertThat(weapon.getDamage().get(1), is(f));
-        assertThat(weapon.getSlots().get(0), is(ItemSlots.WEAPON_2_HAND));
+        assertThat(weapon.getSlots(), is(ItemSlots.WEAPON_HAND));
         assertThat(weapon.getDamageTypes().get(0), is(DamageTypes.PHYSICAL_SLASH));
         assertThat(weapon.getDamageTypes().get(1), is(DamageTypes.MAGIC_FIRE));
+        assertThat(weapon.getValue(), is(250));
+        assertThat(weapon.getHands(), is(2));
     }
 }

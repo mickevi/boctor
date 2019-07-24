@@ -48,8 +48,8 @@ public class RaceTest {
         BodyPart right_leg = new BodyPart("right leg", ItemSlots.ARMOR_LEGS, 10);
         BodyPart left_foot = new BodyPart("Left foot", ItemSlots.ARMOR_FEET, 10);
         BodyPart right_foot = new BodyPart("Right foot", ItemSlots.ARMOR_FEET, 10);
-        BodyPart right_hand = new BodyPart("Right hand", ItemSlots.WEAPON_PRIMARY_HAND, 0);
-        BodyPart left_hand = new BodyPart("Left hand", ItemSlots.WEAPON_OFF_HAND, 0);
+        BodyPart right_hand = new BodyPart("Right hand", ItemSlots.WEAPON_HAND, 0);
+        BodyPart left_hand = new BodyPart("Left hand", ItemSlots.WEAPON_HAND, 0);
         ArrayList<BodyPart> body = new ArrayList<>();
         body.add(head);
         body.add(left_arm);

@@ -83,14 +83,24 @@ public class InventoryTest {
 
 
     @Test
-    @Ignore
-    public void test_remove_item() {
+    public void test_remove_item() throws Exception {
+        Item item = new Item("Pryl", ItemType.ITEM);
+        Item item2 = new Item("Pryl2", ItemType.ITEM);
+        Inventory in = new Inventory();
+        in.add(item);
+        assertThat(in.numItems(), is(1));
+        in.removeItem(0);
+        assertThat(in.numItems(), is(0));
+        in.add(item);
+        in.add(item2);
+        in.removeItem(1);
+        assertThat(in.numItems(), is(1));
 
     }
 
     @Test
     @Ignore
-    public void test_find_item() {
+    public void test_find_item_by_name() {
 
     }
 
@@ -99,4 +109,6 @@ public class InventoryTest {
     public void test_remove_nonexisting() {
 
     }
+
+
 }

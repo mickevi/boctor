@@ -1,6 +1,7 @@
 {
   "name": "Flaming Axe of crushing",
-  "slots": ["WEAPON_2_HAND"],
+  "slots": "WEAPON_HAND",
+  "hands": 2,
   "damageTypes": ["PHYSICAL_SLASH", "MAGIC_FIRE"],
   "damage": [[1, 6, 1], [1, 4, 1]],
   "value": 250

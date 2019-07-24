@@ -3,10 +3,8 @@ package se.mickevi.boctor;
 public enum ItemSlots {
     WEAPON_ANY_HAND,
     WEAPON_2_HAND,
-    WEAPON_PRIMARY_HAND,
-    WEAPON_OFF_HAND,
-    WEAPON_PRIMARY_FOOT,
-    WEAPON_OFF_FOOT,
+    WEAPON_FOOT,
+    WEAPON_HAND,
     ARMOR_HEAD,
     ARMOR_BODY,
     ARMOR_HANDS,

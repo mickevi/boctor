@@ -67,7 +67,7 @@ public class Race {
 
     public BodyPart getBodyPart(String name) {
         for (BodyPart bp: this.body) {
-            if (bp.getName().equals(name)) {
+            if (bp.getName().equalsIgnoreCase(name)) {
                 return bp;
             }
         }

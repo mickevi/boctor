@@ -10,19 +10,22 @@ import java.util.List;
 public class Weapon extends Item {
 
     ArrayList<Dice> damage = new ArrayList<>();
-    ArrayList<ItemSlots> slots = new ArrayList<>();
+    ItemSlots slots;
+    int hands;
     ArrayList<DamageTypes> damageTypes = new ArrayList<>();
 
     public Weapon() {
     }
 
-    public Weapon(String name, List<ItemSlots> slots, List<DamageTypes> damageTypes,
-                  List<Dice> damage, int value) {
+    public Weapon(String name, ItemSlots slots, List<DamageTypes> damageTypes,
+                  List<Dice> damage, int value, int hands) {
         super(name, ItemType.WEAPON, value);
-        this.slots = (ArrayList<ItemSlots>) slots;
+        this.slots = slots;
         this.damageTypes = (ArrayList<DamageTypes>) damageTypes;
         this.damage = (ArrayList<Dice>) damage;
+        this.hands = hands;
     }
+
     public Weapon(String filename) {
         super("tmp", ItemType.WEAPON);
         ObjectMapper mapper = new ObjectMapper();
@@ -34,9 +37,18 @@ public class Weapon extends Item {
             this.slots = tmp.slots;
             this.damageTypes = tmp.damageTypes;
             this.value = tmp.getValue();
+            this.hands = tmp.getHands();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getHands() {
+        return hands;
+    }
+
+    public void setHands(int hands) {
+        this.hands = hands;
     }
 
     public List<Dice> getDamage() {
@@ -52,12 +64,12 @@ public class Weapon extends Item {
         this.damage.add(new Dice(d));
     }
 
-    public List<ItemSlots> getSlots() {
+    public ItemSlots getSlots() {
         return slots;
     }
 
-    public void setSlots(List<ItemSlots> slots) {
-        this.slots = (ArrayList<ItemSlots>) slots;
+    public void setSlots(ItemSlots slots) {
+        this.slots = slots;
     }
 
     public List<DamageTypes> getDamageTypes() {

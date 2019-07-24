@@ -93,12 +93,12 @@
     "hitChance" : 10
   }, {
     "name" : "Right hand",
-    "slot" : "WEAPON_PRIMARY_HAND",
+    "slot" : "WEAPON_HAND",
     "equippedItem" : null,
     "hitChance" : 0
   }, {
     "name" : "Left hand",
-    "slot" : "WEAPON_OFF_HAND",
+    "slot" : "WEAPON_HAND",
     "equippedItem" : null,
     "hitChance" : 0
   } ]

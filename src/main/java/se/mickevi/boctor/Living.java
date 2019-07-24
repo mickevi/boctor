@@ -192,7 +192,7 @@ public class Living {
         this.inventory.add(i);
     }
 
-    void equipWeapon(int i) {
+    void equipWeapon(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion {
         /*
         check for restriction
         Move item from inventory to bodypart matching itemslot
@@ -201,6 +201,51 @@ public class Living {
 
         if possible, us same function for armor and effects
          */
+        Weapon w = (Weapon) inventory.removeItem(i);
+        // hitta de body parts som har slotts som passar vapnet
+        List<BodyPart> weaponHands = new ArrayList<>();
+        for (BodyPart b: race.getBody()) {
+            if ( b.getSlot().equals(w.getSlots()) ) {
+                weaponHands.add(b);
+            }
+        }
+        System.out.println("Candidates: " + weaponHands);
+
+        // Man måste ha två händer för att kunna hantera två vapen..
+        if ( w.getHands() >= weaponHands.size() + 1) {
+            throw new EquipmentNoAvailbleSlotsExceptoion("No slots for " + w);
+
+        }
+        // TODO Replace freeSlots with with stream...
+        // ex..int total = stats.stream().mapToInt(x -> x.getCurrentValue()).sum();
+
+        int freeSlots = 0;
+        for (BodyPart b: weaponHands) {
+            if (b.getEquippedItem() == null) {
+                freeSlots++;
+            }
+        }
+        if ( freeSlots < w.getHands()) {
+            // Free upp slot(s), move stuff back to inventory
+
+        }
+
+        for (int h=0; h<w.getHands(); h++) {
+            for (BodyPart b: weaponHands ) {
+                if (b.getEquippedItem() == null) {
+                    System.out.println("Eqippping "+ w.getName() + " in " + b.getName());
+                    race.getBodyPart(b.getName()).setEquippedItem(w);
+                    break;
+                }
+            }
+        }
+        // se till att det finns en ledig slot
+        // om inte byt ut aktiva vapnet mot de valda och lägg det i inventory
+        // finns det inte platts i inventoryt raisa en exception
+
+
+
+
     }
 
     void equipArmor(int i) {
@@ -212,7 +257,7 @@ public class Living {
         Not done yet
          */
     }
-    public void equipItem(int i) throws InventoryNoSuchItemException {
+    public void equipItem(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion  {
         try {
             ItemType t = this.inventory.getItem(0).getType();
             switch (t) {

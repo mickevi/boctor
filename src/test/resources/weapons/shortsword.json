@@ -1,6 +1,7 @@
 {
   "name": "Short sword",
-  "slots": ["WEAPON_ANY_HAND"],
+  "slots": "WEAPON_HAND",
+  "hands": 1,
   "damageTypes": ["PHYSICAL_SLASH"],
   "damage": [[1, 6, 1]],
   "value": 100

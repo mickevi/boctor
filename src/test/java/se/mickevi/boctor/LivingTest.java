@@ -1,14 +1,14 @@
 package se.mickevi.boctor;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class LivingTest {
 
@@ -135,13 +135,78 @@ public class LivingTest {
     }
 
     @Test
-    @Ignore
     public void testEquipWeapon() throws Exception {
         Weapon weapon = new Weapon("src/test/resources/weapons/shortsword.json");
         Living l = new Living(human, warrior);
         l.addItem(weapon);
         l.equipItem(0);
-        assertThat(l.getEquippedItems().contains(weapon), is(true));
+        //assertThat(l.getEquippedItems().contains(weapon), is(true));
+       // the weapon should have moved to the boypart
+        assertThat(l.getInventory().numItems(), is(0));
+        assertThat(l.getRace().getBodyPart("Right hand").getEquippedItem().getName(), is(weapon.getName()));
+        assertNull(l.getRace().getBodyPart("left hand").getEquippedItem());
+    }
+
+    @Test
+    public void testEquipWhenNoFreeSlots() throws Exception {
+        Weapon w1 = new Weapon("src/test/resources/weapons/shortsword.json");
+        Weapon w2 = new Weapon("src/test/resources/weapons/shortsword.json");
+        Weapon w3 = new Weapon("src/test/resources/weapons/shortsword.json");
+        Weapon w2h = new Weapon("src/test/resources/weapons/flamingaxe.json");
+
+        w2.setName("sword2");
+        w3.setName("sword3");
+
+        Living l = new Living(human, warrior);
+        l.getInventory().setSize(2);
+        l.addItem(w1);
+        l.equipItem(0);
+        l.addItem(w2);
+        l.equipItem(0);
+        assertThat(l.getInventory().numItems(), is(0));
+        assertThat(l.getRace().getBodyPart("Right hand").getEquippedItem().getName(), is(w1.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(w2.getName()));
+        assertThat(l.getInventory().numItems(), is(0));
+        l.addItem(w3);
+        l.equipItem(0);
+        assertThat(l.getRace().getBodyPart("Right hand").getEquippedItem().getName(), is(w3.getName()));
+        assertThat(l.getInventory().numItems(), is(1));
+        assertThat(l.getInventory().getItem(0).getName(), is(w1.getName()));
+
+        /*
+        equippa två vapen
+        eqipppa ett till
+        eqipppa ett 2h vapen.
+
+        skriv test för inventory full  och eqippa två vapen, fyll inventory och equippa
+        ett 2h vapen
+
+         */
+    }
+
+    @Test
+    public void testEquip2HWeapon() throws Exception {
+        Weapon weapon = new Weapon("src/test/resources/weapons/flamingaxe.json");
+        Living l = new Living(human, warrior);
+        l.addItem(weapon);
+        l.equipItem(0);
+        assertThat(l.getRace().getBodyPart("rigHt hand").getEquippedItem().getName(), is(weapon.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(weapon.getName()));
+
+    }
+
+    @Test(expected = EquipmentNoAvailbleSlotsExceptoion.class)
+    public void testNoAvailbeSlots() throws Exception  {
+        Weapon weapon = new Weapon("src/test/resources/weapons/flamingaxe.json");
+        Living l = new Living(human, warrior);
+        BodyPart head = new BodyPart("Head", ItemSlots.ARMOR_HEAD, 100);
+        ArrayList<BodyPart> body = new ArrayList<>();
+        body.add(head);
+
+        l.getRace().setBody(body);
+        l.addItem(weapon);
+        l.equipItem(0);
+
     }
     @Test(expected = InventoryNoSuchItemException.class)
     public void testEquipWeaponException() throws Exception {
@@ -149,5 +214,10 @@ public class LivingTest {
         Living l = new Living(human, warrior);
 
         l.equipItem(0);
+    }
+
+    @Test
+    public void getEquippedItems() {
+        fail("aksf");
     }
 }
