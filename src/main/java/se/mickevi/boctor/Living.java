@@ -1,13 +1,15 @@
 package se.mickevi.boctor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 public class Living {
     public static final Dice dice = new Dice();
     private Inventory inventory;
     private Inventory spells;
     private Inventory effects;
-
 
 
     private Stat hp = new Stat("hp");
@@ -17,7 +19,6 @@ public class Living {
     private Race race;
     private Integer xp = 0;
     private Integer level = 1;
-
 
 
     public Living(Race race, Profession profession) {
@@ -90,7 +91,7 @@ public class Living {
 
     private void reRoll() {
 
-        for (Stat s: race.getStats()) {
+        for (Stat s : race.getStats()) {
             s.reRoll();
         }
 
@@ -126,10 +127,9 @@ public class Living {
         // Every 4 levels gives a random stat increase
         if ((this.level % 4) == 0) {
             race.increaseRandomStat();
-            System.out.println("Level:" + level);
+
         }
     }
-
 
 
     private int hpRoll() {
@@ -146,10 +146,6 @@ public class Living {
     public String getRaceName() {
         return race.getName();
     }
-
-
-
-
 
 
     @Override
@@ -188,23 +184,24 @@ public class Living {
         return hp.getBaseValue();
     }
 
-    public void addItem(Item i) throws InventoryWrongTypeException, InventoryFullException{
+    public void addItem(Item i) throws InventoryWrongTypeException, InventoryFullException {
         this.inventory.add(i);
     }
+
     public void uneqipItem(String bodypart) throws InventoryFullException {
         Item i = race.getBodyPart(bodypart).getEquippedItem();
-        if ( inventory.getFreeSlots() == 0) throw new InventoryFullException("No room in inventory for uneqipped item");
+        if (inventory.getFreeSlots() == 0) throw new InventoryFullException("No room in inventory for uneqipped item");
         if (i != null) {
             if (i.getType().equals(ItemType.WEAPON)) {
                 Weapon w = (Weapon) i;
                 if (w.getHands() > 1) {
                     // Uneqip all copies of the weapon
-                    System.out.println("2h weapon");
+
                     for (BodyPart b : race.getBody()) {
                         try {
                             if (b.getSlot().equals(w.getSlots()) && b.getEquippedItem().getName().equals(w.getName())) {
                                 race.getBodyPart(b.getName()).uneqipItem();
-                                System.out.println("Mach on " + b.getName());
+
                             }
                         } catch (NullPointerException e) {
                             // Expected in some cases.
@@ -226,7 +223,7 @@ public class Living {
 
     }
 
-    void equipWeapon(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryWrongTypeException, InventoryFullException {
+    void equipWeapon(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryFullException {
         /*
         check for restriction
         Move item from inventory to bodypart matching itemslot
@@ -238,15 +235,15 @@ public class Living {
         Weapon w = (Weapon) inventory.removeItem(i);
         // hitta de body parts som har slotts som passar vapnet
         List<BodyPart> weaponHands = new ArrayList<>();
-        for (BodyPart b: race.getBody()) {
-            if ( b.getSlot().equals(w.getSlots()) ) {
+        for (BodyPart b : race.getBody()) {
+            if (b.getSlot().equals(w.getSlots())) {
                 weaponHands.add(b);
             }
         }
-        System.out.println("Candidates: " + weaponHands);
+
 
         // Man måste ha två händer för att kunna hantera två vapen..
-        if ( w.getHands() >= weaponHands.size() + 1) {
+        if (w.getHands() >= weaponHands.size() + 1) {
             throw new EquipmentNoAvailbleSlotsExceptoion("No slots for " + w);
 
         }
@@ -254,19 +251,19 @@ public class Living {
         // ex..int total = stats.stream().mapToInt(x -> x.getCurrentValue()).sum();
 
         int freeSlots = 0;
-        for (BodyPart b: weaponHands) {
+        for (BodyPart b : weaponHands) {
             if (b.getEquippedItem() == null) {
                 freeSlots++;
             }
         }
 
-        if ( freeSlots < w.getHands()) {
+        if (freeSlots < w.getHands()) {
             // Free upp slot(s)
             int needed = w.getHands() - freeSlots;
-            for (BodyPart b: weaponHands) {
+            for (BodyPart b : weaponHands) {
                 uneqipItem(b.getName());
 
-                needed --;
+                needed--;
                 if (needed == 0) {
                     break;
                 }
@@ -275,10 +272,9 @@ public class Living {
 
         }
 
-        for (int h=0; h<w.getHands(); h++) {
-            for (BodyPart b: weaponHands ) {
+        for (int h = 0; h < w.getHands(); h++) {
+            for (BodyPart b : weaponHands) {
                 if (b.getEquippedItem() == null) {
-                    System.out.println("Eqippping "+ w.getName() + " in " + b.getName());
                     race.getBodyPart(b.getName()).setEquippedItem(w);
                     break;
                 }
@@ -287,8 +283,6 @@ public class Living {
         // se till att det finns en ledig slot
         // om inte byt ut aktiva vapnet mot de valda och lägg det i inventory
         // finns det inte platts i inventoryt raisa en exception
-
-
 
 
     }
@@ -302,16 +296,20 @@ public class Living {
         Not done yet
          */
     }
-    public void equipItem(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryFullException, InventoryWrongTypeException {
+
+    public void equipItem(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryFullException {
         try {
             ItemType t = this.inventory.getItem(0).getType();
             switch (t) {
-                case WEAPON: equipWeapon(i);
-                break;
-                case ARMOR: equipArmor(i);
-                break;
-                case EFFECT: equipEffect(i);
-                break;
+                case WEAPON:
+                    equipWeapon(i);
+                    break;
+                case ARMOR:
+                    equipArmor(i);
+                    break;
+                case EFFECT:
+                    equipEffect(i);
+                    break;
                 default:
             }
 
@@ -323,9 +321,9 @@ public class Living {
     }
 
     public List getEquippedItems() {
-        ArrayList<Item> l =  new ArrayList<>();
-        for (BodyPart b: race.getBody()) {
-            if ( b.getEquippedItem() != null) {
+        ArrayList<Item> l = new ArrayList<>();
+        for (BodyPart b : race.getBody()) {
+            if (b.getEquippedItem() != null) {
                 l.add(b.getEquippedItem());
             }
         }
