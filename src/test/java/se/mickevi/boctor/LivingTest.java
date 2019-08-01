@@ -158,7 +158,6 @@ public class LivingTest {
         w3.setName("sword3");
 
         Living l = new Living(human, warrior);
-        l.getInventory().setSize(2);
         l.addItem(w1);
         l.equipItem(0);
         l.addItem(w2);
@@ -170,18 +169,21 @@ public class LivingTest {
         l.addItem(w3);
         l.equipItem(0);
         assertThat(l.getRace().getBodyPart("Right hand").getEquippedItem().getName(), is(w3.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(w2.getName()));
+
         assertThat(l.getInventory().numItems(), is(1));
         assertThat(l.getInventory().getItem(0).getName(), is(w1.getName()));
 
-        /*
-        equippa två vapen
-        eqipppa ett till
-        eqipppa ett 2h vapen.
+        // 2h weapon
+        l.addItem(w2h);
+        assertThat(l.getInventory().numItems(), is(2));
+        l.equipItem(1);
+        assertThat(l.getRace().getBodyPart("Right hand").getEquippedItem().getName(), is(w2h.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(w2h.getName()));
 
-        skriv test för inventory full  och eqippa två vapen, fyll inventory och equippa
-        ett 2h vapen
+        assertThat(l.getInventory().numItems(), is(3));
 
-         */
+
     }
 
     @Test
@@ -194,6 +196,36 @@ public class LivingTest {
         assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(weapon.getName()));
 
     }
+
+    @Test
+    public void testUneqip2HWeapon() throws Exception {
+        Weapon weapon = new Weapon("src/test/resources/weapons/flamingaxe.json");
+        Living l = new Living(human, warrior);
+        l.addItem(weapon);
+        l.equipItem(0);
+        assertThat(l.getRace().getBodyPart("rigHt hand").getEquippedItem().getName(), is(weapon.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(weapon.getName()));
+        l.uneqipItem("right hand");
+        assertNull(l.getRace().getBodyPart("rigHt hand").getEquippedItem());
+        assertNull(l.getRace().getBodyPart("left hand").getEquippedItem());
+        assertThat(l.getInventory().numItems(), is(1));
+    }
+    @Test
+    public void testUneqip1HWeapon() throws Exception {
+        Weapon w1 = new Weapon("src/test/resources/weapons/shortsword.json");
+        Weapon w2 = new Weapon("src/test/resources/weapons/shortsword.json");
+        Living l = new Living(human, warrior);
+        l.addItem(w1);
+        l.addItem(w2);
+        l.equipItem(0);
+        l.equipItem(0);
+        assertThat(l.getRace().getBodyPart("rigHt hand").getEquippedItem().getName(), is(w1.getName()));
+        assertThat(l.getRace().getBodyPart("left hand").getEquippedItem().getName(), is(w2.getName()));
+        l.uneqipItem("right hand");
+        assertNull(l.getRace().getBodyPart("right hand").getEquippedItem());
+        assertThat(l.getInventory().numItems(), is(1));
+    }
+
 
     @Test(expected = EquipmentNoAvailbleSlotsExceptoion.class)
     public void testNoAvailbeSlots() throws Exception  {

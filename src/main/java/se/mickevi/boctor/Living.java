@@ -191,8 +191,42 @@ public class Living {
     public void addItem(Item i) throws InventoryWrongTypeException, InventoryFullException{
         this.inventory.add(i);
     }
+    public void uneqipItem(String bodypart) throws InventoryFullException {
+        Item i = race.getBodyPart(bodypart).getEquippedItem();
+        if ( inventory.getFreeSlots() == 0) throw new InventoryFullException("No room in inventory for uneqipped item");
+        if (i != null) {
+            if (i.getType().equals(ItemType.WEAPON)) {
+                Weapon w = (Weapon) i;
+                if (w.getHands() > 1) {
+                    // Uneqip all copies of the weapon
+                    System.out.println("2h weapon");
+                    for (BodyPart b : race.getBody()) {
+                        try {
+                            if (b.getSlot().equals(w.getSlots()) && b.getEquippedItem().getName().equals(w.getName())) {
+                                race.getBodyPart(b.getName()).uneqipItem();
+                                System.out.println("Mach on " + b.getName());
+                            }
+                        } catch (NullPointerException e) {
+                            // Expected in some cases.
+                        }
+                    }
 
-    void equipWeapon(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion {
+                } else {
+                    race.getBodyPart(bodypart).uneqipItem();
+                }
+
+            }
+            try {
+                inventory.add(i);
+            } catch (InventoryWrongTypeException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+
+    void equipWeapon(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryWrongTypeException, InventoryFullException {
         /*
         check for restriction
         Move item from inventory to bodypart matching itemslot
@@ -225,8 +259,19 @@ public class Living {
                 freeSlots++;
             }
         }
+
         if ( freeSlots < w.getHands()) {
-            // Free upp slot(s), move stuff back to inventory
+            // Free upp slot(s)
+            int needed = w.getHands() - freeSlots;
+            for (BodyPart b: weaponHands) {
+                uneqipItem(b.getName());
+
+                needed --;
+                if (needed == 0) {
+                    break;
+                }
+            }
+
 
         }
 
@@ -257,7 +302,7 @@ public class Living {
         Not done yet
          */
     }
-    public void equipItem(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion  {
+    public void equipItem(int i) throws InventoryNoSuchItemException, EquipmentNoAvailbleSlotsExceptoion, InventoryFullException, InventoryWrongTypeException {
         try {
             ItemType t = this.inventory.getItem(0).getType();
             switch (t) {
@@ -286,4 +331,6 @@ public class Living {
         }
         return l;
     }
+
+
 }

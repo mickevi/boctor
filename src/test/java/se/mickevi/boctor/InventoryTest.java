@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class InventoryTest {
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp()  {
 
     }
 
@@ -111,4 +111,17 @@ public class InventoryTest {
     }
 
 
+    @Test
+    public void getFreeSlots() throws Exception {
+        Item item = new Item("Pryl", ItemType.ITEM);
+        Item item2 = new Item("Pryl2", ItemType.ITEM);
+        Inventory in = new Inventory();
+        assertThat(in.getFreeSlots(), is (10));
+        in.add(item);
+        assertThat(in.getFreeSlots(), is (9));
+        in.add(item2);
+        assertThat(in.getFreeSlots(), is (8));
+        in.removeItem(0);
+        assertThat(in.getFreeSlots(), is (9));
+    }
 }

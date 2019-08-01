@@ -71,4 +71,8 @@ public class Inventory {
 
 
     }
+
+    public int getFreeSlots() {
+        return size - items.size();
+    }
 }

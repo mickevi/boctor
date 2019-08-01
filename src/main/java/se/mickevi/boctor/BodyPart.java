@@ -55,6 +55,12 @@ public class BodyPart {
         this.equippedItem = equippedItem;
     }
 
+    public Item uneqipItem() {
+        Item i = this.equippedItem;
+        this.equippedItem = null;
+        return i;
+    }
+
     @Override
     public String toString() {
         return "BodyPart{" +
