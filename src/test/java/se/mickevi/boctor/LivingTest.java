@@ -249,7 +249,13 @@ public class LivingTest {
     }
 
     @Test
-    public void getEquippedItems() {
-        fail("aksf");
+    public void getEquippedItems() throws InventoryNoSuchItemException, InventoryFullException, EquipmentNoAvailbleSlotsExceptoion, InventoryWrongTypeException {
+        Living l = new Living(human, warrior);
+        Weapon weapon = new Weapon("src/test/resources/weapons/flamingaxe.json");
+        ArrayList<Item> expected = new ArrayList<>();
+
+        l.addItem(weapon);
+        l.equipItem(0);
+        assertThat(l.getEquippedItems().get(0), is(weapon));
     }
 }

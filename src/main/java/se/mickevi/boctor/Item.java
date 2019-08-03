@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Item {
     String name;
@@ -22,6 +23,22 @@ public class Item {
         this.name = name;
         this.type = type;
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+        Item item = (Item) o;
+        return getCount() == item.getCount() &&
+                getValue() == item.getValue() &&
+                getName().equals(item.getName()) &&
+                getType() == item.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getType(), getCount(), getValue());
     }
 
     public Item(String fileName) {
